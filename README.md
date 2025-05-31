@@ -51,6 +51,7 @@ The tool modifies the following files:
 - You can only use 2-3 trials per device
 - Each reset requires a new account
 - The tool must be run with the editor closed
+- Device trial counter is reset to zero
 
 ## 🔒 Security
 
