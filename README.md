@@ -58,7 +58,6 @@ This tool provides a reliable solution for resetting the trial period of the Aug
 - Each reset requires a new account
 - Resets the device trial counter to zero
 - Must be run with editor closed
-- Automatically generates a new email for each reset
 
 ## 🔒 Security Features
 
