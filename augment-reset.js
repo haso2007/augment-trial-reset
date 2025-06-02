@@ -13,8 +13,8 @@
  * - Generates new random device ID
  * - Preserves user settings
  * 
- * Author: Based on cursor-reset by @isboyjc
- * Created: 30/May/2025
+ * Author: Based on cursor-reset by @triallord
+ * Created: 2/Jun/2025
  */
 
 const fs = require('fs').promises;
@@ -217,16 +217,6 @@ async function resetAugmentTrial() {
       }
     }
 
-    // Get user email
-    console.log('\n📧 Please enter your email address for the Augment account:');
-    const userEmail = await getUserInput('Email: ');
-    
-    if (!userEmail || !userEmail.includes('@')) {
-      console.log('❌ Invalid email address. Please enter a valid email.');
-      await waitForKeypress();
-      return;
-    }
-
     const configPaths = getAugmentConfigPaths();
     console.log('📂 Found configuration paths:', configPaths);
 
@@ -234,6 +224,7 @@ async function resetAugmentTrial() {
     console.log('🎲 Generating new account data...');
     const newDeviceId = generateDeviceId();
     const newUserId = generateUserId();
+    const userEmail = 'new@account.com'; // Placeholder email since user will create new account
     console.log('✅ New account data generated successfully\n');
 
     // Calculate trial dates
@@ -327,7 +318,6 @@ async function resetAugmentTrial() {
 
         if (configPath.includes('state.json')) {
           console.log('Account Details:');
-          console.log('Email:', userEmail);
           console.log('User ID:', newUserId);
           console.log('Device ID:', newDeviceId);
           console.log('\nTrial period: 14 days');
@@ -342,9 +332,8 @@ async function resetAugmentTrial() {
     console.log('\n🎉 Augment extension trial reset complete!');
     console.log('\n⚠️ Important:');
     console.log('1. Please restart your editor (VS Code or Cursor) for changes to take effect');
-    console.log('2. When logging in, use the email address you provided:', userEmail);
-    console.log('3. Check your email for the verification code');
-    console.log('4. If you don\'t receive the code, check your spam folder');
+    console.log('2. Create a new account when prompted');
+    console.log('3. The trial period will be active for 14 days');
 
     await waitForKeypress();
   } catch (error) {
