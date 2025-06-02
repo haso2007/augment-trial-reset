@@ -26,12 +26,4 @@ jobs:
             README.md
           generate_release_notes: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Notify Discord
-        if: success()
-        uses: Ilshidur/action-discord@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        with:
-          args: 'New release ${{ github.ref_name }} is now available! 🎉' 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
