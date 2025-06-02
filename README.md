@@ -24,6 +24,14 @@ This tool provides a reliable solution for resetting the trial period of the Aug
 - 💾 **Backup System**: Automatically backs up your configuration
 - 🎯 **Cross-Platform**: Compatible with Windows, macOS, and Linux
 
+## 💰 Cost Savings
+
+The Augment extension costs $20/month ($240/year). This tool helps you:
+- Save $240 annually
+- Get unlimited trial periods
+- Access premium features for free
+- No subscription required
+
 ## 🚀 Quick Start
 
 1. **Close Your Editor**
