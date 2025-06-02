@@ -7,6 +7,7 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/releases)
 [![GitHub](https://img.shields.io/github/license/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/TrialLord/augment-trial-reset?style=social)](https://github.com/TrialLord/augment-trial-reset/stargazers)
+[![Downloads](https://img.shields.io/github/downloads/TrialLord/augment-trial-reset/total)](https://github.com/TrialLord/augment-trial-reset/releases)
 
 *A professional tool for managing Augment extension trial periods*
 
