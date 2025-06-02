@@ -2,14 +2,19 @@
 
 <div align="center">
 
-```
-  _____                  _             
- / ____|                | |            
-| |     __ _ _ __  _   _ | |_ ___  _ __ 
-| |    / _` | '_ \| | | || __/ _ \| '__|
-| |___| (_| | | | | |_| || || (_) | |   
- \_____\__,_|_| |_|\__,_| \__\___/|_|   
-```
+
+$$$$$$$$\           $$\           $$\ $$\                                 $$\ 
+\__$$  __|          \__|          $$ |$$ |                                $$ |
+   $$ |    $$$$$$\  $$\  $$$$$$\  $$ |$$ |       $$$$$$\   $$$$$$\   $$$$$$$ |
+   $$ |   $$  __$$\ $$ | \____$$\ $$ |$$ |      $$  __$$\ $$  __$$\ $$  __$$ |
+   $$ |   $$ |  \__|$$ | $$$$$$$ |$$ |$$ |      $$ /  $$ |$$ |  \__|$$ /  $$ |
+   $$ |   $$ |      $$ |$$  __$$ |$$ |$$ |      $$ |  $$ |$$ |      $$ |  $$ |
+   $$ |   $$ |      $$ |\$$$$$$$ |$$ |$$$$$$$$\ \$$$$$$  |$$ |      \$$$$$$$ |
+   \__|   \__|      \__| \_______|\__|\________| \______/ \__|       \_______|
+                                                                              
+                                                                              
+                                                                              
+
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/releases)
 [![GitHub](https://img.shields.io/github/license/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/blob/master/LICENSE)
