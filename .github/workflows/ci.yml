@@ -7,6 +7,26 @@ on:
     branches: [ main ]
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check HTML files
+        run: |
+          if [ ! -f "index.html" ]; then
+            echo "index.html is missing"
+            exit 1
+          fi
+          if [ ! -f "augment-reset.js" ]; then
+            echo "augment-reset.js is missing"
+            exit 1
+          fi
+          if [ ! -f "README.md" ]; then
+            echo "README.md is missing"
+            exit 1
+          fi
+
   test:
     runs-on: ubuntu-latest
     steps:
