@@ -56,9 +56,9 @@ This tool provides a reliable solution for resetting the trial period of the Aug
 ## ⚠️ Important Notes
 
 - Each reset requires a new account
-- Limited to 2-3 trials per device
+- Resets the device trial counter to zero
 - Must be run with editor closed
-- Trial counter resets to zero
+- Automatically generates a new email for each reset
 
 ## 🔒 Security Features
 
