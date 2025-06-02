@@ -82,6 +82,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 This tool is provided for educational purposes only. Use responsibly and in accordance with the extension's terms of service.
 
+## 💡 Future Tools
+
+We're planning to create more trial reset tools! Let us know which tools you'd like to see next:
+
+- [Create an Issue](https://github.com/TrialLord/augment-trial-reset/issues/new) to suggest a tool
+- Vote on existing suggestions by adding a 👍 reaction
+
+Popular suggestions so far:
+- JetBrains IDEs trial reset
+- Adobe Creative Cloud trial reset
+- Microsoft Office trial reset
+- More VS Code extensions
+
 ---
 
 <div align="center">
