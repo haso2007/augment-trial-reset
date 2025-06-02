@@ -1,4 +1,4 @@
-# Augment Extension Trial Reset Tool
+# Augment Trial Reset Tool
 
 This tool helps reset the trial period for the Augment coding extension by modifying the extension's configuration files. It works with both VS Code and Cursor editors.
 
@@ -72,3 +72,9 @@ This tool is provided for educational purposes only. Use at your own risk.
 ## ⚠️ Disclaimer
 
 This tool is not affiliated with Augment or its developers. Use responsibly and in accordance with the extension's terms of service.
+
+## GitHub Actions
+This project uses GitHub Actions for:
+- Continuous Integration (CI)
+- Automated deployments to GitHub Pages
+- Automated releases
