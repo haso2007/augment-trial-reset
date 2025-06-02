@@ -1,80 +1,91 @@
-# Augment Trial Reset Tool
+# 🔄 Augment Trial Reset
 
-This tool helps reset the trial period for the Augment coding extension by modifying the extension's configuration files. It works with both VS Code and Cursor editors.
+<div align="center">
 
-## ⚠️ Important Notes
+```
+  _____                  _             
+ / ____|                | |            
+| |     __ _ _ __  _   _ | |_ ___  _ __ 
+| |    / _` | '_ \| | | || __/ _ \| '__|
+| |___| (_| | | | | |_| || || (_) | |   
+ \_____\__,_|_| |_|\__,_| \__\___/|_|   
+```
 
-- This tool resets the trial by modifying device IDs and account information
-- You will need to create a new account each time you use this tool
-- The tool preserves your user settings while resetting the trial period
-- Works on Windows, macOS, and Linux systems
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/releases)
+[![GitHub](https://img.shields.io/github/license/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/TrialLord/augment-trial-reset?style=social)](https://github.com/TrialLord/augment-trial-reset/stargazers)
 
-## 🚀 How to Use
+*A professional tool for managing Augment extension trial periods*
 
-1. **Close VS Code/Cursor**
-   - Make sure to save any work
-   - The tool will attempt to close the editors automatically
+</div>
+
+## 📋 Overview
+
+This tool provides a reliable solution for resetting the trial period of the Augment coding extension. It works seamlessly with both VS Code and Cursor editors, ensuring a smooth development experience.
+
+## ✨ Features
+
+- 🔄 **Trial Reset**: Reset your trial period to zero
+- 🛠️ **Multi-Editor Support**: Works with both VS Code and Cursor
+- 🔒 **Secure**: No data is sent to external servers
+- 💾 **Backup System**: Automatically backs up your configuration
+- 🎯 **Cross-Platform**: Compatible with Windows, macOS, and Linux
+
+## 🚀 Quick Start
+
+1. **Close Your Editor**
+   ```bash
+   # Save your work and close VS Code/Cursor
+   ```
 
 2. **Run the Tool**
    ```bash
    node augment-reset.js
    ```
 
-3. **Follow the Prompts**
-   - Enter your email address when prompted
-   - The tool will generate new account data
-   - Wait for the process to complete
+3. **Create New Account**
+   - Launch your editor
+   - Create a new account with the provided email
+   - Verify your email address
 
-4. **Restart Your Editor**
-   - Launch VS Code or Cursor
-   - Create a new account with the email you provided
-   - Check your email for the verification code
-   - If you don't receive the code, check your spam folder
+## 🔧 Technical Details
 
-## 🔧 What the Tool Does
+### Files Modified
+- `state.json`: Trial state and configuration
+- `subscription.json`: Subscription information
+- `account.json`: Account settings
 
-- Backs up existing configuration files
-- Generates new device ID and user ID
-- Resets trial period to 14 days
-- Preserves user settings and preferences
-- Clears usage counters and session data
-
-## 📁 Files Modified
-
-The tool modifies the following files:
-- `state.json`
-- `subscription.json`
-- `account.json`
-
-## ⚠️ Limitations
-
-- You can only use 2-3 trials per device
-- Each reset requires a new account
-- The tool must be run with the editor closed
-- Device trial counter is reset to zero
-
-## 🔒 Security
-
-- All configuration files are backed up before modification
-- Backups are stored with timestamps
-- No data is sent to external servers
-
-## 🛠️ Requirements
-
-- Node.js installed
+### System Requirements
+- Node.js runtime
 - VS Code or Cursor editor
-- Administrative privileges (for some systems)
+- Administrative privileges (system-dependent)
+
+## ⚠️ Important Notes
+
+- Each reset requires a new account
+- Limited to 2-3 trials per device
+- Must be run with editor closed
+- Trial counter resets to zero
+
+## 🔒 Security Features
+
+- Local file modifications only
+- Automatic configuration backups
+- No external data transmission
+- Timestamped backup files
 
 ## 📝 License
 
-This tool is provided for educational purposes only. Use at your own risk.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## ⚠️ Disclaimer
 
-This tool is not affiliated with Augment or its developers. Use responsibly and in accordance with the extension's terms of service.
+This tool is provided for educational purposes only. Use responsibly and in accordance with the extension's terms of service.
 
-## GitHub Actions
-This project uses GitHub Actions for:
-- Continuous Integration (CI)
-- Automated deployments to GitHub Pages
-- Automated releases
+---
+
+<div align="center">
+
+Made with ❤️ by [TrialLord](https://github.com/TrialLord)
+
+</div>
