@@ -143,31 +143,51 @@ function getAugmentConfigPaths() {
   // VS Code paths
   switch (platform) {
     case 'win32':
+      // Main configuration paths
       paths.push(path.join(process.env.APPDATA, 'Code', 'User', 'globalStorage', 'augment.augment', 'state.json'));
       paths.push(path.join(process.env.APPDATA, 'Cursor', 'User', 'globalStorage', 'augment.augment', 'state.json'));
-      // Add additional paths for subscription data
       paths.push(path.join(process.env.APPDATA, 'Code', 'User', 'globalStorage', 'augment.augment', 'subscription.json'));
       paths.push(path.join(process.env.APPDATA, 'Cursor', 'User', 'globalStorage', 'augment.augment', 'subscription.json'));
       paths.push(path.join(process.env.APPDATA, 'Code', 'User', 'globalStorage', 'augment.augment', 'account.json'));
       paths.push(path.join(process.env.APPDATA, 'Cursor', 'User', 'globalStorage', 'augment.augment', 'account.json'));
+      
+      // Additional cache and storage locations
+      paths.push(path.join(process.env.APPDATA, 'Code', 'Cache', 'augment.augment'));
+      paths.push(path.join(process.env.APPDATA, 'Cursor', 'Cache', 'augment.augment'));
+      paths.push(path.join(process.env.APPDATA, 'Code', 'CachedData', 'augment.augment'));
+      paths.push(path.join(process.env.APPDATA, 'Cursor', 'CachedData', 'augment.augment'));
+      paths.push(path.join(process.env.LOCALAPPDATA, 'Code', 'User', 'globalStorage', 'augment.augment'));
+      paths.push(path.join(process.env.LOCALAPPDATA, 'Cursor', 'User', 'globalStorage', 'augment.augment'));
       break;
     case 'darwin':
+      // Main configuration paths
       paths.push(path.join(homedir, 'Library', 'Application Support', 'Code', 'User', 'globalStorage', 'augment.augment', 'state.json'));
       paths.push(path.join(homedir, 'Library', 'Application Support', 'Cursor', 'User', 'globalStorage', 'augment.augment', 'state.json'));
-      // Add additional paths for subscription data
       paths.push(path.join(homedir, 'Library', 'Application Support', 'Code', 'User', 'globalStorage', 'augment.augment', 'subscription.json'));
       paths.push(path.join(homedir, 'Library', 'Application Support', 'Cursor', 'User', 'globalStorage', 'augment.augment', 'subscription.json'));
       paths.push(path.join(homedir, 'Library', 'Application Support', 'Code', 'User', 'globalStorage', 'augment.augment', 'account.json'));
       paths.push(path.join(homedir, 'Library', 'Application Support', 'Cursor', 'User', 'globalStorage', 'augment.augment', 'account.json'));
+      
+      // Additional cache and storage locations
+      paths.push(path.join(homedir, 'Library', 'Caches', 'Code', 'augment.augment'));
+      paths.push(path.join(homedir, 'Library', 'Caches', 'Cursor', 'augment.augment'));
+      paths.push(path.join(homedir, 'Library', 'Application Support', 'Code', 'Cache', 'augment.augment'));
+      paths.push(path.join(homedir, 'Library', 'Application Support', 'Cursor', 'Cache', 'augment.augment'));
       break;
     case 'linux':
+      // Main configuration paths
       paths.push(path.join(homedir, '.config', 'Code', 'User', 'globalStorage', 'augment.augment', 'state.json'));
       paths.push(path.join(homedir, '.config', 'Cursor', 'User', 'globalStorage', 'augment.augment', 'state.json'));
-      // Add additional paths for subscription data
       paths.push(path.join(homedir, '.config', 'Code', 'User', 'globalStorage', 'augment.augment', 'subscription.json'));
       paths.push(path.join(homedir, '.config', 'Cursor', 'User', 'globalStorage', 'augment.augment', 'subscription.json'));
       paths.push(path.join(homedir, '.config', 'Code', 'User', 'globalStorage', 'augment.augment', 'account.json'));
       paths.push(path.join(homedir, '.config', 'Cursor', 'User', 'globalStorage', 'augment.augment', 'account.json'));
+      
+      // Additional cache and storage locations
+      paths.push(path.join(homedir, '.cache', 'Code', 'augment.augment'));
+      paths.push(path.join(homedir, '.cache', 'Cursor', 'augment.augment'));
+      paths.push(path.join(homedir, '.config', 'Code', 'Cache', 'augment.augment'));
+      paths.push(path.join(homedir, '.config', 'Cursor', 'Cache', 'augment.augment'));
       break;
     default:
       throw new Error(`Unsupported operating system: ${platform}`);
@@ -224,7 +244,7 @@ async function resetAugmentTrial() {
     console.log('🎲 Generating new account data...');
     const newDeviceId = generateDeviceId();
     const newUserId = generateUserId();
-    const userEmail = 'new@account.com'; // Placeholder email since user will create new account
+    const userEmail = generateEmail(); // Use random email instead of fixed one
     console.log('✅ New account data generated successfully\n');
 
     // Calculate trial dates
@@ -248,6 +268,18 @@ async function resetAugmentTrial() {
           console.log('ℹ️ No existing configuration to backup\n');
         }
 
+        // If it's a directory, remove it completely
+        try {
+          const stats = await fs.stat(configPath);
+          if (stats.isDirectory()) {
+            await fs.rm(configPath, { recursive: true, force: true });
+            console.log('✅ Removed directory: ' + configPath);
+            continue;
+          }
+        } catch (error) {
+          // Ignore errors if file/directory doesn't exist
+        }
+
         // Create new configuration based on file type
         let newConfig;
         if (configPath.includes('subscription.json')) {
@@ -258,7 +290,10 @@ async function resetAugmentTrial() {
             endDate: trialEndDate.toISOString(),
             isActive: true,
             isExpired: false,
-            remainingDays: 14
+            remainingDays: 14,
+            trialCount: 0,
+            lastTrialReset: null,
+            previousTrials: []
           };
         } else if (configPath.includes('account.json')) {
           newConfig = {
@@ -267,7 +302,9 @@ async function resetAugmentTrial() {
             deviceId: newDeviceId,
             createdAt: trialStartDate.toISOString(),
             lastLogin: trialStartDate.toISOString(),
-            isActive: true
+            isActive: true,
+            trialHistory: [],
+            deviceHistory: []
           };
         } else {
           // Default state.json configuration
@@ -284,11 +321,14 @@ async function resetAugmentTrial() {
             trialStatus: 'active',
             trialExpired: false,
             trialRemainingDays: 14,
+            trialCount: 0,
             
             // Reset all usage counters
             usageCount: 0,
             totalUsageCount: 0,
             lastUsageDate: null,
+            messageCount: 0,
+            totalMessageCount: 0,
             
             // Reset all timestamps
             lastReset: new Date().toISOString(),
@@ -298,16 +338,25 @@ async function resetAugmentTrial() {
             // Clear any existing session data
             sessionId: crypto.randomBytes(16).toString('hex'),
             lastSessionDate: null,
+            sessionHistory: [],
             
             // Reset all flags
             isFirstRun: true,
             hasCompletedOnboarding: false,
+            hasUsedTrial: false,
             
             // Clear any existing preferences but keep defaults
             preferences: {
               theme: 'light',
               language: 'en',
               notifications: true
+            },
+            
+            // Clear any tracking data
+            tracking: {
+              lastCheck: null,
+              checkCount: 0,
+              lastValidation: null
             }
           };
         }
@@ -320,6 +369,7 @@ async function resetAugmentTrial() {
           console.log('Account Details:');
           console.log('User ID:', newUserId);
           console.log('Device ID:', newDeviceId);
+          console.log('Email:', userEmail);
           console.log('\nTrial period: 14 days');
           console.log('Start date:', trialStartDate.toLocaleDateString());
           console.log('End date:', trialEndDate.toLocaleDateString());
@@ -334,6 +384,7 @@ async function resetAugmentTrial() {
     console.log('1. Please restart your editor (VS Code or Cursor) for changes to take effect');
     console.log('2. Create a new account when prompted');
     console.log('3. The trial period will be active for 14 days');
+    console.log('4. Consider using a different network connection or VPN if issues persist');
 
     await waitForKeypress();
   } catch (error) {
