@@ -24,7 +24,7 @@ This tool provides a reliable solution for resetting the trial period of the Aug
 - 🔒 **Secure**: No data is sent to external servers
 - 💾 **Backup System**: Automatically backs up your configuration
 - 🎯 **Cross-Platform**: Compatible with Windows, macOS, and Linux
-- 🕒 **Custom Trial Duration**: Use `--days N` to set your trial period
+- 🕒 **Custom Trial Duration**: Use `--days N` to set your trial period *(not guaranteed; see note below)*
 - 🧪 **Dry-Run Mode**: Use `--dry-run` to preview changes
 - 🛡️ **Improved Safety**: Aggressively deletes all stale data before resetting
 
@@ -35,30 +35,6 @@ The Augment extension costs $20/month ($240/year). This tool helps you:
 - Get unlimited trial periods
 - Access premium features for free
 - No subscription required
-
-## �� Quick Start
-
-1. **Install Dependencies**
-   ```bash
-   npm install
-   ```
-
-2. **Close Your Editor**
-   ```bash
-   # Save your work and close VS Code/Cursor
-   ```
-
-3. **Run the Tool**
-   ```bash
-   node augment-reset.js [--days N] [--dry-run]
-   ```
-   - `--days N`: Set custom trial period (default: 14 days)
-   - `--dry-run`: Preview changes without modifying files
-
-4. **Create New Account**
-   - Launch your editor
-   - Create a new account with the provided email
-   - Verify your email address
 
 ## 🔧 Technical Details
 
@@ -79,6 +55,8 @@ The Augment extension costs $20/month ($240/year). This tool helps you:
 - Each reset requires a new account
 - Resets the device trial counter to zero
 - Must be run with editor closed
+
+> **Note:** The custom trial duration feature is not guaranteed to work in all cases. The Augment extension may enforce trial limits server-side or change its validation methods at any time. This tool attempts to reset all local data, but results may vary depending on future updates to the extension.
 
 ## 🔒 Security Features
 
