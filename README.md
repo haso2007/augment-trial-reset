@@ -19,11 +19,14 @@ This tool provides a reliable solution for resetting the trial period of the Aug
 
 ## ✨ Features
 
-- 🔄 **Trial Reset**: Reset your trial period to zero
+- 🔄 **Aggressive Trial Reset**: Wipes all known config and cache data for a true reset
 - 🛠️ **Multi-Editor Support**: Works with both VS Code and Cursor
 - 🔒 **Secure**: No data is sent to external servers
 - 💾 **Backup System**: Automatically backs up your configuration
 - 🎯 **Cross-Platform**: Compatible with Windows, macOS, and Linux
+- 🕒 **Custom Trial Duration**: Use `--days N` to set your trial period
+- 🧪 **Dry-Run Mode**: Use `--dry-run` to preview changes
+- 🛡️ **Improved Safety**: Aggressively deletes all stale data before resetting
 
 ## 💰 Cost Savings
 
@@ -33,34 +36,43 @@ The Augment extension costs $20/month ($240/year). This tool helps you:
 - Access premium features for free
 - No subscription required
 
-## 🚀 Quick Start
+## �� Quick Start
 
-1. **Close Your Editor**
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Close Your Editor**
    ```bash
    # Save your work and close VS Code/Cursor
    ```
 
-2. **Run the Tool**
+3. **Run the Tool**
    ```bash
-   node augment-reset.js
+   node augment-reset.js [--days N] [--dry-run]
    ```
+   - `--days N`: Set custom trial period (default: 14 days)
+   - `--dry-run`: Preview changes without modifying files
 
-3. **Create New Account**
+4. **Create New Account**
    - Launch your editor
    - Create a new account with the provided email
    - Verify your email address
 
 ## 🔧 Technical Details
 
-### Files Modified
+### Files Modified & Wiped
 - `state.json`: Trial state and configuration
 - `subscription.json`: Subscription information
 - `account.json`: Account settings
+- All related `augment.augment` folders in globalStorage, Cache, and CachedData
 
 ### System Requirements
 - Node.js runtime
 - VS Code or Cursor editor
 - Administrative privileges (system-dependent)
+- **Dependencies:** Run `npm install` to install required packages (`chalk`, `inquirer`)
 
 ## ⚠️ Important Notes
 

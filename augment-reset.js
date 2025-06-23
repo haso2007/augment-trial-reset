@@ -23,6 +23,23 @@ const os = require('os');
 const crypto = require('crypto');
 const { execSync } = require('child_process');
 const readline = require('readline');
+const chalk = require('chalk');
+const inquirer = require('inquirer');
+
+// Parse CLI arguments for --days and --dry-run
+const args = process.argv.slice(2);
+let trialDays = 14;
+let dryRun = false;
+
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '--days' && args[i + 1]) {
+    const val = parseInt(args[i + 1], 10);
+    if (!isNaN(val) && val > 0) trialDays = val;
+  }
+  if (args[i] === '--dry-run') {
+    dryRun = true;
+  }
+}
 
 function waitForKeypress() {
   if (process.platform === 'win32' && !process.env.TERM) {
@@ -250,22 +267,59 @@ async function resetAugmentTrial() {
     // Calculate trial dates
     const trialStartDate = new Date();
     const trialEndDate = new Date(trialStartDate);
-    trialEndDate.setDate(trialEndDate.getDate() + 14);
+    trialEndDate.setDate(trialEndDate.getDate() + trialDays);
 
     for (const configPath of configPaths) {
-      console.log(`\n🔄 Processing: ${configPath}`);
+      console.log(chalk.default.cyan(`\n🔄 Processing: ${configPath}`));
+      let shouldProceed = true;
+      let exists = false;
+      try {
+        await fs.access(configPath);
+        exists = true;
+      } catch {}
+      // Always delete the file or directory if it exists
+      if (exists) {
+        try {
+          const stats = await fs.stat(configPath);
+          if (stats.isDirectory()) {
+            await fs.rm(configPath, { recursive: true, force: true });
+            console.log(chalk.default.yellow('Removed existing directory: ' + configPath));
+          } else {
+            await fs.unlink(configPath);
+            console.log(chalk.default.yellow('Removed existing file: ' + configPath));
+          }
+        } catch (err) {
+          console.log(chalk.default.gray('Could not remove existing file/directory (may not exist): ' + configPath));
+        }
+      }
+      // Also aggressively remove parent augment.augment directory if present
+      const parentDir = path.dirname(configPath);
+      if (parentDir.endsWith('augment.augment')) {
+        try {
+          await fs.rm(parentDir, { recursive: true, force: true });
+          console.log(chalk.default.yellow('Aggressively wiped directory: ' + parentDir));
+        } catch (err) {
+          // Ignore errors
+        }
+        // Recreate the directory for the new config
+        await fs.mkdir(parentDir, { recursive: true });
+      }
+      if (dryRun) {
+        console.log(chalk.default.green('Would reset and write new configuration (dry run).'));
+        continue;
+      }
       
       try {
         // Create directory if it doesn't exist
         await fs.mkdir(path.dirname(configPath), { recursive: true });
         
         // Backup existing config
-        console.log('💾 Backing up configuration...');
+        console.log(chalk.default.blue('💾 Backing up configuration...'));
         try {
           const backupPath = await backupFile(configPath);
-          console.log(`✅ Configuration backup complete: ${backupPath}\n`);
+          console.log(chalk.default.green(`✅ Configuration backup complete: ${backupPath}\n`));
         } catch (error) {
-          console.log('ℹ️ No existing configuration to backup\n');
+          console.log(chalk.default.gray('ℹ️ No existing configuration to backup\n'));
         }
 
         // If it's a directory, remove it completely
@@ -273,7 +327,7 @@ async function resetAugmentTrial() {
           const stats = await fs.stat(configPath);
           if (stats.isDirectory()) {
             await fs.rm(configPath, { recursive: true, force: true });
-            console.log('✅ Removed directory: ' + configPath);
+            console.log(chalk.default.green('✅ Removed directory: ' + configPath));
             continue;
           }
         } catch (error) {
@@ -290,7 +344,7 @@ async function resetAugmentTrial() {
             endDate: trialEndDate.toISOString(),
             isActive: true,
             isExpired: false,
-            remainingDays: 14,
+            remainingDays: trialDays,
             trialCount: 0,
             lastTrialReset: null,
             previousTrials: []
@@ -317,10 +371,10 @@ async function resetAugmentTrial() {
             // Trial information
             trialStartDate: trialStartDate.toISOString(),
             trialEndDate: trialEndDate.toISOString(),
-            trialDuration: 14,
+            trialDuration: trialDays,
             trialStatus: 'active',
             trialExpired: false,
-            trialRemainingDays: 14,
+            trialRemainingDays: trialDays,
             trialCount: 0,
             
             // Reset all usage counters
@@ -363,19 +417,19 @@ async function resetAugmentTrial() {
 
         // Save new configuration
         await fs.writeFile(configPath, JSON.stringify(newConfig, null, 2));
-        console.log('✅ New configuration saved successfully\n');
+        console.log(chalk.default.green('✅ New configuration saved successfully\n'));
 
         if (configPath.includes('state.json')) {
-          console.log('Account Details:');
+          console.log(chalk.default.magenta('Account Details:'));
           console.log('User ID:', newUserId);
           console.log('Device ID:', newDeviceId);
           console.log('Email:', userEmail);
-          console.log('\nTrial period: 14 days');
+          console.log(`\nTrial period: ${trialDays} days`);
           console.log('Start date:', trialStartDate.toLocaleDateString());
           console.log('End date:', trialEndDate.toLocaleDateString());
         }
       } catch (error) {
-        console.log(`❌ Error processing ${configPath}:`, error.message);
+        console.log(chalk.default.red(`❌ Error processing ${configPath}:`), error.message);
       }
     }
 
@@ -383,7 +437,7 @@ async function resetAugmentTrial() {
     console.log('\n⚠️ Important:');
     console.log('1. Please restart your editor (VS Code or Cursor) for changes to take effect');
     console.log('2. Create a new account when prompted');
-    console.log('3. The trial period will be active for 14 days');
+    console.log('3. The trial period will be active for ' + trialDays + ' days');
     console.log('4. Consider using a different network connection or VPN if issues persist');
 
     await waitForKeypress();
