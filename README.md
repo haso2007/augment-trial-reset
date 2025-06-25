@@ -1,5 +1,28 @@
 # 🔄 Augment Trial Reset
 
+**This repository is no longer maintained or updated.**
+
+## Why is the tool no longer public?
+
+To protect legitimate users and prevent automated monitoring, scraping, and abuse by third parties (including the Augment extension developers), the tool is now distributed only by request in a private repository.
+
+## Access to the Tool
+
+The Augment Trial Reset tool is now available only by request in a private repository.
+
+**To request access:**
+- Please contact me directly at [YOUR_EMAIL_HERE] or via [YOUR_DISCORD/TELEGRAM/OTHER_METHOD].
+- Include a brief message about why you need access.
+- You will receive an invitation to the private repository if approved.
+
+**Note:**
+- The tool is no longer distributed publicly to prevent automated monitoring and abuse.
+- Please do not share the tool or private repo link publicly.
+
+---
+
+Thank you for your understanding and support!
+
 <div align="center">
 
 <img src="assets/logo.svg" alt="Augment Trial Reset Logo" width="200"/>

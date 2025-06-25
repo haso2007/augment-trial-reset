@@ -15,4 +15,12 @@ yarn-debug.log*
 yarn-error.log*
 
 # VS Code settings
-.vscode/ 
+.vscode/
+
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!README.md
+!LICENSE 
