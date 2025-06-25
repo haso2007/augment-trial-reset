@@ -12,7 +12,7 @@ The Augment Trial Reset tool is now available only by request in a private repos
 
 **To request access:**
 - Please open an issue in this repository requesting access to the private repository.
-- You will receive an invitation to the private repository if approved.
+- You will receive an invitation to the private repository if* approved.
 
 **Note:**
 - The tool is no longer distributed publicly to prevent automated monitoring and abuse.
