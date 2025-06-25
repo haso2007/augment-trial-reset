@@ -7,30 +7,37 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        body {
+            background: #181A20;
+            color: #E5E7EB;
+        }
         .gradient-bg {
-            background: linear-gradient(135deg, #1a1c6b 0%, #4f46e5 100%);
+            background: linear-gradient(135deg, #23243a 0%, #3B82F6 100%);
         }
         .feature-card {
             transition: all 0.3s ease;
-            border: 1px solid rgba(79, 70, 229, 0.1);
+            border: 1px solid #23243a;
+            background: #23243a;
         }
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1), 0 10px 10px -5px rgba(79, 70, 229, 0.04);
+            box-shadow: 0 20px 25px -5px #22D3EE, 0 10px 10px -5px #A78BFA;
+            border-color: #22D3EE;
         }
         .code-block {
-            background: #1a1c6b;
-            color: #fff;
+            background: #23243a;
+            color: #A78BFA;
             border-radius: 8px;
             padding: 1rem;
             font-family: 'Fira Code', monospace;
         }
         .section-divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, #3B82F6 0.2, transparent);
         }
         .nav-link {
             position: relative;
+            color: #9CA3AF;
         }
         .nav-link::after {
             content: '';
@@ -39,17 +46,55 @@
             height: 2px;
             bottom: -2px;
             left: 0;
-            background-color: #4f46e5;
+            background-color: #22D3EE;
             transition: width 0.3s ease;
         }
-        .nav-link:hover::after {
+        .nav-link:hover, .nav-link:focus {
+            color: #22D3EE;
+        }
+        .nav-link:hover::after, .nav-link:focus::after {
             width: 100%;
         }
         .github-stats {
-            background: #f6f8fa;
-            border: 1px solid #e1e4e8;
+            background: #23243a;
+            border: 1px solid #3B82F6;
             border-radius: 6px;
             padding: 1rem;
+            color: #E5E7EB;
+        }
+        .bg-indigo-50 {
+            background: #23243a !important;
+        }
+        .bg-white {
+            background: #23243a !important;
+        }
+        .text-indigo-600, .text-indigo-700 {
+            color: #3B82F6 !important;
+        }
+        .text-gray-600 {
+            color: #9CA3AF !important;
+        }
+        .text-gray-700 {
+            color: #E5E7EB !important;
+        }
+        .text-gray-400 {
+            color: #9CA3AF !important;
+        }
+        .bg-gray-50 {
+            background: #181A20 !important;
+        }
+        .bg-yellow-100, .bg-yellow-50 {
+            background: #23243a !important;
+            color: #E5E7EB !important;
+        }
+        .border-yellow-500, .border-yellow-100 {
+            border-color: #A78BFA !important;
+        }
+        .text-yellow-800, .text-yellow-900 {
+            color: #A78BFA !important;
+        }
+        .rounded-xl {
+            border-radius: 1rem;
         }
     </style>
 </head>
@@ -89,6 +134,23 @@
         </div>
     </header>
 
+    <!-- Latest Release Section -->
+    <section class="py-16 bg-indigo-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-sm p-10">
+                <h2 class="text-3xl font-bold mb-6 text-indigo-700">Latest Release: v2.1.0</h2>
+                <ul class="list-disc pl-8 text-gray-700 space-y-2">
+                    <li><b>Enforced 14-Day Maximum Trial:</b> The tool now enforces a maximum trial period of 14 days. If you specify a higher value, you'll get a warning and the tool will use 14 days.</li>
+                    <li><b>Identity File Wipe for VS Code & Cursor:</b> Removes identity-related files (logs, history, workspaceStorage) in both VS Code and Cursor config directories to further reduce tracking and improve reset reliability.</li>
+                    <li><b>Custom Trial Duration:</b> You can still use <code>--days N</code> to set your trial period, but it will be capped at 14 days.</li>
+                    <li><b>Aggressive Data Wipe:</b> All known Augment config, cache, and globalStorage data is wiped.</li>
+                    <li><b>Randomized User/Device Info:</b> Each reset generates new account, device, and user IDs.</li>
+                    <li><b>Important Notes:</b> The actual trial period is determined by the extension and may be limited to 14 days regardless of config. Each reset requires a new account. The tool now wipes more identity-related files, but results may vary if the extension adds new tracking methods in the future.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <!-- Features Section -->
     <section id="features" class="py-24">
         <div class="container mx-auto px-6">
@@ -98,22 +160,22 @@
                     <div class="text-indigo-600 text-4xl mb-6">
                         <i class="fas fa-sync-alt"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Trial Reset</h3>
-                    <p class="text-gray-600 leading-relaxed">Reset your trial period to 14 days while maintaining all your custom settings and preferences intact.</p>
+                    <h3 class="text-2xl font-semibold mb-4">Trial Reset (14 Days Max)</h3>
+                    <p class="text-gray-600 leading-relaxed">Reset your trial period to <b>14 days</b> (maximum allowed). If you specify a higher value, the tool will warn you and use 14 days.</p>
                 </div>
                 <div class="feature-card bg-white p-8 rounded-xl shadow-sm">
                     <div class="text-indigo-600 text-4xl mb-6">
-                        <i class="fas fa-shield-alt"></i>
+                        <i class="fas fa-broom"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Settings Preserved</h3>
-                    <p class="text-gray-600 leading-relaxed">Your user preferences, configurations, and workspace settings remain completely unchanged.</p>
+                    <h3 class="text-2xl font-semibold mb-4">Identity File Wipe</h3>
+                    <p class="text-gray-600 leading-relaxed">Removes identity-related files (logs, history, workspaceStorage) for both VS Code and Cursor to further reduce tracking and improve reset reliability.</p>
                 </div>
                 <div class="feature-card bg-white p-8 rounded-xl shadow-sm">
                     <div class="text-indigo-600 text-4xl mb-6">
-                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-random"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Secure Process</h3>
-                    <p class="text-gray-600 leading-relaxed">Automatic backups and local-only processing ensure your data remains secure and private.</p>
+                    <h3 class="text-2xl font-semibold mb-4">Randomized User/Device Info</h3>
+                    <p class="text-gray-600 leading-relaxed">Each reset generates new account, device, and user IDs for maximum privacy.</p>
                 </div>
             </div>
         </div>
@@ -139,17 +201,18 @@
                             <span class="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-6 flex-shrink-0 text-lg font-semibold">2</span>
                             <div>
                                 <h3 class="text-2xl font-semibold mb-3">Run the Tool</h3>
-                                <p class="text-gray-600 leading-relaxed mb-3">Execute the tool using Node.js:</p>
+                                <p class="text-gray-600 leading-relaxed mb-3">Execute the tool using Node.js. You can specify the trial period (max 14 days):</p>
                                 <div class="code-block">
-                                    <code>node augment-reset.js</code>
+                                    <code>node augment-reset.js --days 14</code>
                                 </div>
+                                <p class="text-yellow-600 mt-2">If you specify a higher value, the tool will warn you and use 14 days.</p>
                             </div>
                         </li>
                         <li class="flex items-start">
                             <span class="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-6 flex-shrink-0 text-lg font-semibold">3</span>
                             <div>
                                 <h3 class="text-2xl font-semibold mb-3">Follow Prompts</h3>
-                                <p class="text-gray-600 leading-relaxed">Enter your email address and follow the on-screen instructions. The tool will guide you through the process.</p>
+                                <p class="text-gray-600 leading-relaxed">The tool will guide you through the process and show you the new account details.</p>
                             </div>
                         </li>
                         <li class="flex items-start">
@@ -196,54 +259,13 @@
             <h2 class="text-4xl font-bold text-center mb-16">What the Tool Does</h2>
             <div class="max-w-4xl mx-auto">
                 <div class="bg-white rounded-xl shadow-sm p-10">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="space-y-6">
-                            <div class="flex items-start">
-                                <span class="text-indigo-600 mr-4 mt-1"><i class="fas fa-database text-xl"></i></span>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-2">Configuration Management</h3>
-                                    <p class="text-gray-600">Modifies extension configuration files to reset trial period while preserving user settings</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="text-indigo-600 mr-4 mt-1"><i class="fas fa-id-card text-xl"></i></span>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-2">ID Generation</h3>
-                                    <p class="text-gray-600">Generates new device ID and user ID for fresh trial period</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="text-indigo-600 mr-4 mt-1"><i class="fas fa-clock text-xl"></i></span>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-2">Trial Reset</h3>
-                                    <p class="text-gray-600">Resets trial period to 14 days with full functionality</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="flex items-start">
-                                <span class="text-indigo-600 mr-4 mt-1"><i class="fas fa-save text-xl"></i></span>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-2">Settings Preservation</h3>
-                                    <p class="text-gray-600">Maintains all user preferences and workspace configurations</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="text-indigo-600 mr-4 mt-1"><i class="fas fa-eraser text-xl"></i></span>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-2">Usage Reset</h3>
-                                    <p class="text-gray-600">Clears usage counters and session data for fresh start</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="text-indigo-600 mr-4 mt-1"><i class="fas fa-desktop text-xl"></i></span>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-2">Multi-Platform</h3>
-                                    <p class="text-gray-600">Works on Windows, macOS, and Linux systems</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ul class="list-disc pl-8 text-gray-700 space-y-4">
+                        <li>Enforces a <b>14-day maximum trial period</b> (warns and caps if higher value is set)</li>
+                        <li>Wipes all known Augment config, cache, and globalStorage data</li>
+                        <li>Wipes identity-related files in VS Code and Cursor (logs, history, workspaceStorage)</li>
+                        <li>Randomizes user/account/device info for each reset</li>
+                        <li>Warns if a higher trial period is set</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -324,38 +346,16 @@
         </div>
     </section>
 
-    <!-- Disclaimer Section -->
-    <section class="py-24 bg-gray-50">
+    <!-- Important Notes/Disclaimer Section -->
+    <section class="py-12 bg-yellow-50">
         <div class="container mx-auto px-6">
-            <div class="max-w-3xl mx-auto">
-                <div class="bg-white rounded-xl shadow-sm p-10">
-                    <h2 class="text-3xl font-bold mb-8 flex items-center">
-                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-4"></i>
-                        Important Notes
-                    </h2>
-                    <ul class="space-y-6 text-gray-600">
-                        <li class="flex items-start">
-                            <span class="text-indigo-600 mr-3 mt-1"><i class="fas fa-circle text-xs"></i></span>
-                            <span>This tool is for educational purposes only</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-indigo-600 mr-3 mt-1"><i class="fas fa-circle text-xs"></i></span>
-                            <span>Not affiliated with Augment or its developers</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-indigo-600 mr-3 mt-1"><i class="fas fa-circle text-xs"></i></span>
-                            <span>Use responsibly and in accordance with terms of service</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-indigo-600 mr-3 mt-1"><i class="fas fa-circle text-xs"></i></span>
-                            <span>New account required for each reset</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-indigo-600 mr-3 mt-1"><i class="fas fa-circle text-xs"></i></span>
-                            <span>Resets device trial counter to zero</span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="max-w-3xl mx-auto bg-yellow-100 border-l-4 border-yellow-500 p-8 rounded-xl">
+                <h3 class="text-2xl font-bold mb-4 text-yellow-800">Important Notes</h3>
+                <ul class="list-disc pl-8 text-yellow-900 space-y-2">
+                    <li>The actual trial period is determined by the extension and may be limited to 14 days regardless of config.</li>
+                    <li>Each reset requires a new account.</li>
+                    <li>The tool now wipes more identity-related files, but results may vary if the extension adds new tracking methods in the future.</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -375,7 +375,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>© 2024 Augment Extension Trial Reset Tool. All rights reserved.</p>
+                <p>© 2025 Augment Extension Trial Reset Tool. All rights reserved.</p>
             </div>
         </div>
     </footer>
