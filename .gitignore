@@ -15,4 +15,23 @@ yarn-debug.log*
 yarn-error.log*
 
 # VS Code settings
-.vscode/ 
+.vscode/
+
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!README.md
+!LICENSE 
+
+# tool files
+augment-reset.js
+augment-reset.js.map
+augment-reset.js.map.gz
+augment-reset.js.map.gz.br
+augment-reset.js.map.gz.br.gz
+augment-reset.js.map.gz.br.gz.br
+augment-reset.js.map.gz.br.gz.br.gz
+augment-reset.js.map.gz.br.gz.br.gz.br
+augment-reset.js.map.gz.br.gz.br.gz.br.gz
