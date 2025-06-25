@@ -34,7 +34,14 @@ let dryRun = false;
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--days' && args[i + 1]) {
     const val = parseInt(args[i + 1], 10);
-    if (!isNaN(val) && val > 0) trialDays = val;
+    if (!isNaN(val) && val > 0) {
+      if (val > 14) {
+        console.log(chalk.default.yellow('Warning: The maximum allowed trial period is 14 days. Using 14 days.'));
+        trialDays = 14;
+      } else {
+        trialDays = val;
+      }
+    }
   }
   if (args[i] === '--dry-run') {
     dryRun = true;
@@ -239,6 +246,89 @@ async function getUserInput(prompt) {
       resolve(answer.trim());
     });
   });
+}
+
+async function wipeEditorIdentityFiles() {
+  const fs = require('fs').promises;
+  const path = require('path');
+  const os = require('os');
+  const chalk = require('chalk');
+
+  const appData = process.env.APPDATA;
+  const cursorPaths = [
+    path.join(appData, 'Cursor', 'logs'),
+    path.join(appData, 'Cursor', 'User', 'History'),
+    path.join(appData, 'Cursor', 'User', 'workspaceStorage'),
+  ];
+  const patterns = [/id/i, /user/i, /uuid/i, /machine/i];
+
+  for (const dir of cursorPaths) {
+    try {
+      const files = await fs.readdir(dir, { withFileTypes: true });
+      for (const file of files) {
+        if (file.isFile() && patterns.some((pat) => pat.test(file.name))) {
+          const filePath = path.join(dir, file.name);
+          try {
+            await fs.unlink(filePath);
+            console.log(chalk.default.yellow('Wiped identity-related file: ' + filePath));
+          } catch {}
+        }
+        if (file.isDirectory()) {
+          // Recursively check subdirectories
+          const subdir = path.join(dir, file.name);
+          try {
+            const subfiles = await fs.readdir(subdir, { withFileTypes: true });
+            for (const subfile of subfiles) {
+              if (subfile.isFile() && patterns.some((pat) => pat.test(subfile.name))) {
+                const subfilePath = path.join(subdir, subfile.name);
+                try {
+                  await fs.unlink(subfilePath);
+                  console.log(chalk.default.yellow('Wiped identity-related file: ' + subfilePath));
+                } catch {}
+              }
+            }
+          } catch {}
+        }
+      }
+    } catch {}
+  }
+
+  const codePaths = [
+    path.join(appData, 'Code', 'logs'),
+    path.join(appData, 'Code', 'User', 'History'),
+    path.join(appData, 'Code', 'User', 'workspaceStorage'),
+  ];
+
+  for (const dir of codePaths) {
+    try {
+      const files = await fs.readdir(dir, { withFileTypes: true });
+      for (const file of files) {
+        if (file.isFile() && patterns.some((pat) => pat.test(file.name))) {
+          const filePath = path.join(dir, file.name);
+          try {
+            await fs.unlink(filePath);
+            console.log(chalk.default.yellow('Wiped identity-related file: ' + filePath));
+          } catch {}
+        }
+        if (file.isDirectory()) {
+          // Recursively check subdirectories
+          const subdir = path.join(dir, file.name);
+          try {
+            const subfiles = await fs.readdir(subdir, { withFileTypes: true });
+            for (const subfile of subfiles) {
+              if (subfile.isFile() && patterns.some((pat) => pat.test(subfile.name))) {
+                const subfilePath = path.join(subdir, subfile.name);
+                try {
+                  await fs.unlink(subfilePath);
+                  console.log(chalk.default.yellow('Wiped identity-related file: ' + subfilePath));
+                } catch {}
+              }
+            }
+          } catch {}
+        }
+      }
+    } catch {}
+  }
 }
 
 async function resetAugmentTrial() {
@@ -449,6 +539,8 @@ async function resetAugmentTrial() {
 
 async function main() {
   try {
+    console.log(chalk.default.blue('Wiping possible editor identity files (may affect history/settings)...'));
+    await wipeEditorIdentityFiles();
     await resetAugmentTrial();
   } catch (error) {
     console.error('\n❌ Program execution error:', error);
