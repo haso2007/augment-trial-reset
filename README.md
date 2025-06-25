@@ -11,7 +11,7 @@ To protect legitimate users and prevent automated monitoring, scraping, and abus
 The Augment Trial Reset tool is now available only by request in a private repository.
 
 **To request access:**
-- Please message me directly on GitHub ([TrialLord](https://github.com/TrialLord)) and ask for access to the private repository.
+- Please open an issue in this repository requesting access to the private repository.
 - You will receive an invitation to the private repository if approved.
 
 **Note:**
