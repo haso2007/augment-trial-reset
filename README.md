@@ -24,7 +24,7 @@ Thank you for your understanding and support!
 
 <div align="center">
 
-<img src="assets/logo.svg" alt="Augment Trial Reset Logo" width="200"/>
+
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/releases)
 [![GitHub](https://img.shields.io/github/license/TrialLord/augment-trial-reset)](https://github.com/TrialLord/augment-trial-reset/blob/master/LICENSE)
