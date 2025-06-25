@@ -24,8 +24,8 @@ This tool provides a reliable solution for resetting the trial period of the Aug
 - 🔒 **Secure**: No data is sent to external servers
 - 💾 **Backup System**: Automatically backs up your configuration
 - 🎯 **Cross-Platform**: Compatible with Windows, macOS, and Linux
-- 🕒 **Custom Trial Duration**: Use `--days N` to set your trial period *(not guaranteed; see note below)*
-- 🧪 **Dry-Run Mode**: Use `--dry-run` to preview changes
+- 🕒 **Custom Trial Duration**: Use `--days N` to set your trial period (maximum 14 days; higher values will be capped)
+- 🧹 **Identity File Wipe**: Removes identity-related files for both VS Code and Cursor to further reduce tracking
 - 🛡️ **Improved Safety**: Aggressively deletes all stale data before resetting
 
 ## 💰 Cost Savings
@@ -55,6 +55,8 @@ The Augment extension costs $20/month ($240/year). This tool helps you:
 - Each reset requires a new account
 - Resets the device trial counter to zero
 - Must be run with editor closed
+- The maximum allowed trial period is 14 days. If you specify a higher value, the tool will warn you and use 14 days instead.
+- The tool now wipes identity-related files in both VS Code and Cursor config directories (logs, history, workspaceStorage) to further reduce tracking.
 
 > **Note:** The custom trial duration feature is not guaranteed to work in all cases. The Augment extension may enforce trial limits server-side or change its validation methods at any time. This tool attempts to reset all local data, but results may vary depending on future updates to the extension.
 
