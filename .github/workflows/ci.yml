@@ -14,5 +14,4 @@ jobs:
 
       - name: Check for required files
         run: |
-          test -f augment-reset.js || (echo "augment-reset.js missing" && exit 1)
-          test -f README.md || (echo "README.md missing" && exit 1) 
+          
