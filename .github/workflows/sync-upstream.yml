@@ -1,0 +1,87 @@
+name: Sync with Upstream
+
+on:
+  schedule:
+    # 每天中午12点UTC（北京时间晚上8点）运行
+    # 如果你想要北京时间中午12点，应该是UTC时间早上4点（12-8=4）
+    - cron: '0 4 * * *'  # 北京时间中午12点
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/TrialLord/augment-trial-reset.git || true
+          git remote -v
+
+      - name: Fetch upstream changes
+        run: |
+          git fetch upstream
+
+      - name: Check for updates
+        id: check_updates
+        run: |
+          # 检查上游是否有新的提交
+          LOCAL_COMMIT=$(git rev-parse HEAD)
+          UPSTREAM_COMMIT=$(git rev-parse upstream/master)
+          
+          echo "Local commit: $LOCAL_COMMIT"
+          echo "Upstream commit: $UPSTREAM_COMMIT"
+          
+          if [ "$LOCAL_COMMIT" != "$UPSTREAM_COMMIT" ]; then
+            echo "updates_available=true" >> $GITHUB_OUTPUT
+            echo "Updates available from upstream"
+          else
+            echo "updates_available=false" >> $GITHUB_OUTPUT
+            echo "Repository is up to date"
+          fi
+
+      - name: Merge upstream changes
+        if: steps.check_updates.outputs.updates_available == 'true'
+        run: |
+          # 检查是否有本地更改
+          if ! git diff-index --quiet HEAD --; then
+            echo "⚠️ 检测到本地更改，创建备份分支"
+            git branch backup-before-sync-$(date +%Y%m%d-%H%M%S)
+          fi
+          
+          # 尝试快进合并
+          if git merge upstream/master --ff-only; then
+            echo "✅ 快进合并成功"
+          else
+            echo "⚠️ 无法快进合并，尝试常规合并"
+            if git merge upstream/master -m "🤖 Auto-sync with upstream repository $(date)"; then
+              echo "✅ 合并成功"
+            else
+              echo "❌ 合并失败，存在冲突"
+              echo "::error::合并冲突需要手动解决"
+              exit 1
+            fi
+          fi
+
+      - name: Push changes
+        if: steps.check_updates.outputs.updates_available == 'true'
+        run: |
+          git push origin master
+
+      - name: Create summary
+        run: |
+          if [ "${{ steps.check_updates.outputs.updates_available }}" == "true" ]; then
+            echo "✅ Repository synchronized with upstream successfully" >> $GITHUB_STEP_SUMMARY
+            echo "📊 Changes merged from https://github.com/TrialLord/augment-trial-reset.git" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ Repository is already up to date with upstream" >> $GITHUB_STEP_SUMMARY
+          fi 
